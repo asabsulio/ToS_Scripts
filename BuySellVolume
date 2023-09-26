@@ -1,0 +1,57 @@
+#Total Volume for Regular Trading Day
+AddLabel(yes, "Total Vol: " + volume(period = AggregationPeriod.DAY), Color.white);
+
+
+#Volume of Current Bar
+AddLabel(yes, "CurrentBar Vol: " + volume, Color.LIGHT_GREEN);
+
+
+#Volume of the Last Bar
+AddLabel(yes, "LastBar Vol: " + volume[1], Color.LIGHT_ORANGE);
+
+
+#PreMarket Volume
+input startTime = 0400;
+input endTime = 0929;
+def startCounter = SecondsFromTime(startTime);
+def endCounter = SecondsTillTime(endTime);
+def targetPeriod = if startCounter >= 0 and endCounter >= 0 then 1 else 0;
+rec volumeTotal = if targetPeriod and !targetPeriod[1] then volume else if targetPeriod then volumeTotal[1] + volume else volumeTotal[1];
+AddLabel(yes, Concat("PreMrket Vol: ", volumeTotal), Color.VIOLET);
+
+
+#Volume color coded by amount of volume on up-tick versus amount of volume on down-tick
+declare lower;
+
+def O = open;
+def H = high;
+def C = close;
+def L = low;
+def V = volume;
+def Buying = V * (C - L) / (H - L);
+def Selling = V * (H - C) / (H - L);
+
+# Selling Volume
+plot SV = Selling;
+SV.SetPaintingStrategy(PaintingStrategy.HISTOGRAM);
+SV.SetDefaultColor(Color.LIGHT_RED);
+SV.HideTitle();
+SV.HideBubble();
+SV.SetLineWeight(5);
+
+# Buying Volume
+# Plot BV = Buying;
+# Note that Selling + Buying Volume = Volume.
+plot BV =  volume;
+BV.SetPaintingStrategy(PaintingStrategy.HISTOGRAM);
+BV.SetDefaultColor(Color.GREEN);
+BV.HideTitle();
+BV.HideBubble();
+BV.SetLineWeight(5);
+
+
+#Create an average volume line based on last 50 bars
+input length = 20;
+plot Vol = volume;
+plot VolAvg = Average(volume, length);
+Vol.SetPaintingStrategy(PaintingStrategy.HISTOGRAM);
