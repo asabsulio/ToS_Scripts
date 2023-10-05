@@ -1,0 +1,4 @@
+#######by @asabsulio#######
+
+def value = close("VIX");
+AddLabel(yes, "VIX = " + value,  color.light_gray);
