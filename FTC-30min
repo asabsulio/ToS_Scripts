@@ -1,0 +1,47 @@
+#-------------------------------
+#
+# C O N T I N U I T Y  30
+# 
+# a study that indicates the highest 
+# and lowest open on mutliple time frames
+# for full time frame continuity INTRADAY
+# 
+# Author: Ramon DV aka Pelonsax
+#
+#--------------------------------
+declare upper;
+
+
+def "30mAGG" = AggregationPeriod.THIRTY_MIN;
+def "1hAGG" = AggregationPeriod.HOUR;
+def "2hAGG" = AggregationPeriod.TWO_HOURS;
+
+def thirty = open(period = "30mAGG");
+def hour = open(period = "1hAGG");
+def Thour = open(period = "2hAGG");
+
+def top = if  thirty >=
+hour and thirty >= Thour
+then thirty  else 
+
+if hour >= thirty and hour >= Thour
+then hour else 
+
+if Thour >= thirty and Thour >= hour 
+then Thour else Double.NaN;
+ 
+def bottom = if  thirty <=
+hour and thirty <= Thour
+then thirty  else 
+
+if hour <= thirty and hour <= Thour
+then hour else 
+
+if Thour <= thirty and Thour <= hour 
+then Thour else Double.NaN;
+ 
+
+def Fullup = close >= top;
+def Fulldown = close <= bottom;
+
+AssignPriceColor( if Fullup then Color.GREEN else if Fulldown then Color.RED else Color.GRAY);
