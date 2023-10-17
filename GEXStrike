@@ -1,0 +1,6 @@
+# Column for Custom Quote
+# Gamma Exposure at each strike is calculated by the formula option gamma * open interest * 100 (calls, negative 100 for puts)
+
+plot data = if IsPut() then ceil(gamma() * -100 * open_interest()) else ceil(gamma() * 100 * open_interest());
+assignbackgroundcolor(if AbsValue(data) > 2000 then color.orange else color.black);
+data.assignvaluecolor(if AbsValue(data) > 2000 then color.black else color.current);
