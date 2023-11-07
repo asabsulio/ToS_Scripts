@@ -16,7 +16,8 @@ def r = GetInterestRate();
 def q = if IsNaN(GetDividend()) then q[1] else GetDividend();
 def K = GetStrike ();
 def d1 = (Log(S / K)+(r-q+Sqr(iv)/2)*(Tt))/(iv*Sqrt(Tt));
-def Nd1 = Exp(-Sqr(d1)/2)*1/(2*double.Pi);
+#def Nd1 = Exp(-Sqr(d1)/2)*1/(2*double.Pi);
+def Nd1 = Exp(-Sqr(d1)/2)*1/(Sqrt(2*double.Pi));
 def d2 = d1-iv*Sqrt(Tt);
 
 #Debugging
@@ -36,4 +37,4 @@ plot charm = if isput() then Exp(-q * Tt) * (Nd1 * ((2*r*Tt - d2*IV*Sqrt(Tt)) / 
 else
  -Exp(-q * Tt) * (Nd1 * ((2*r*Tt - d2*IV*Sqrt(Tt)) / (2*Tt*IV*Sqrt(Tt))) + ((2*q*Tt - d1*IV*Sqrt(Tt)) / (2*Tt*IV*Sqrt(Tt))) * d1 + q * d1);
 
-charm.AssignValueColor(Color.GRAY);
+charm.assignvaluecolor(Color.white);
