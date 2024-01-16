@@ -19,18 +19,6 @@ def d1 = (Log(S / K)+(r-q+Sqr(iv)/2)*(Tt))/(iv*Sqrt(Tt));
 def Nd1 = Exp(-Sqr(d1)/2)*1/(Sqrt(2*double.Pi));
 def d2 = d1-iv*Sqrt(Tt);
 
-plot vanna = if isput() then (EXP(-q*Tt)*Sqrt(Tt)*Nd1*d2/iv)*-1000 else (EXP(-q*Tt)*Sqrt(Tt)*Nd1*d2/iv)*1000;
+plot vanna = if isput() then (EXP(-q*Tt)*Sqrt(Tt)*Nd1*(d2/iv))*-100 else (EXP(-q*Tt)*Sqrt(Tt)*Nd1*(d2/iv))*100;
 vanna.AssignValueColor(Color.CYAN);
 vanna.SetPaintingStrategy(PaintingStrategy.LINE);
-
-
-#Debugging
-#addLabel(1,"Tt:"+Tt, color.white);
-#addLabel(1,"CurrPrice:"+S, color.white);
-#addLabel(1,"IV:"+iv, color.white);
-#addLabel(1,"Strike:"+K, color.white);
-#addLabel(1,"IntRate:"+r, color.white);
-#addLabel(1,"Div:"+q, color.white);
-#addLabel(1,"d1:"+d1, color.white);
-#addLabel(1,"Nd1:"+Nd1, color.white);
-#addLabel(1,"d2:"+d2, color.white);
