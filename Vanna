@@ -1,13 +1,6 @@
-#######asabsulio#######
+#######@asabsulio aka @Daft Puts#######
 #Vanna subgraph#
-
 declare lower;
-
-#get current date
-#def data = getYYYYMMDD();
-#def year = Round(data/10000, 0);
-#def month = Round((data % 10000) / 100, 0);
-#def day = (data % 100);
 
 def Tt = GetDaysToExpiration () / 365;
 def S = close(GetUnderlyingSymbol());
