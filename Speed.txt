@@ -1,0 +1,36 @@
+#######@asabsulio aka @Daft Puts#######
+declare lower;
+
+def Tt = GetDaysToExpiration () / 365;
+def S = close(GetUnderlyingSymbol());
+def iv = imp_volatility(getunderlyingSymbol());
+def r = GetInterestRate();
+def q = if IsNaN(GetDividend()) then q[1] else GetDividend();
+def K = GetStrike ();
+def d1 = (Log(S / K)+(r-q+Sqr(iv)/2)*(Tt))/(iv*Sqrt(Tt));
+def Nd1 = Exp(-Sqr(d1)/2)*1/(Sqrt(2*double.Pi));
+def d2 = d1-iv*Sqrt(Tt);
+script N {
+    input data  = 1;
+    def a = AbsValue(data);
+    def b1 =  .31938153;
+    def b2 = -.356563782;
+    def b3 = 1.781477937;
+    def b4 = -1.821255978;
+    def b5 = 1.330274429;
+    def b6 =  .2316419;
+    def e = 1 / (1 + b6 * a);
+    def i = 1 - 1 / Sqrt(2 * Double.Pi) * Exp(-Power(a, 2) / 2) *
+           (b1 * e + b2 * e * e + b3 *
+            Power(e, 3) + b4 * Power(e, 4) + b5 * Power(e, 5));
+    plot CND = if data < 0
+               then 1 - i
+               else i;
+}
+
+def gamma = gamma();
+
+plot speed = -(gamma / S) * (1 + (d1 / (iv * Sqrt(Tt)))) * 10000;
+speed.AssignValueColor(if speed > 0 then Color.red else color.pink);
+speed.SetPaintingStrategy(PaintingStrategy.LINE);
+speed.SetLineWeight(2);
