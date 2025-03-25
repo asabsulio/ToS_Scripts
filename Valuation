@@ -1,0 +1,5 @@
+#Valuation by NextSignals/TheTailThatWagsTheDog
+#Added the FV (VWAP) to show it's value
+assignbackgroundcolor(if close<VWAP() then createcolor(50,100,255) else createcolor(24,26,66));
+addlabel(vwap() > close, round(vwap(),2) + " Undervalued", color.white);
+addlabel(vwap() <= close, round(vwap(),2) + " Overvalued", color.red);
