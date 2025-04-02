@@ -1,4 +1,4 @@
-#GEX using Live Volume
+####GEXVol @daftputs GEX using live Volume with color coded levels for GEX strength####
 plot GEXVol = if !IsPut() then round(gamma()*volume*100,0) else round(gamma()*volume*-100,0);
-assignbackgroundcolor(if absvalue(GEXVol) > 5000 and absvalue(GEXVol) < 8000 then color.dark_orange else if absvalue(GEXVol) > 8000 and absvalue(GEXVol) <20000 then color.cyan else if absvalue(GEXVol) > 20000 then color.blue else color.dark_gray);
+assignbackgroundcolor(if absvalue(GEXVol) > 5000 and absvalue(GEXVol) < 8000 then color.dark_orange else if absvalue(GEXVol) > 8000 and absvalue(GEXVol) <20000 then color.cyan else if absvalue(GEXVol) > 20000 and absvalue(GEXVol) < 100000 then color.blue else if absvalue(GEXVol) > 100000 then color.dark_green else color.dark_gray);
 GEXVol.assignvaluecolor(if absvalue(GEXVol) > 8000 and absvalue(GEXVol) <20000 then color.black else color.white);
